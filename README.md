@@ -45,6 +45,8 @@ Enquanto a URL estiver vazia, o app exibe claramente o modo demonstração e usa
 
 Crie um Snack em branco, replique `App.js` e a pasta `src/`, e adicione as dependências do `package.json` pelo painel de dependências. Para o Drawer, adicione também as dependências peer listadas no arquivo. Cole a URL da MockAPI somente se quiser validar o GET/POST real. O Snack ainda precisa ser validado manualmente em um dispositivo ou emulador; esta cópia local não declara validação no Snack.
 
+Se a opção de importar pelo GitHub mostrar “Git imports have been temporarily disabled”, isso é uma indisponibilidade temporária do recurso do Snack. Use a cópia manual enquanto o recurso não voltar. O projeto inclui `app.json` na raiz para facilitar uma futura importação automática.
+
 ## Checklist de validação
 
 - [x] Quatro telas principais e navegação por Drawer.

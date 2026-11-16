@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "Mimo — Meu Bichinho Virtual",
+    "slug": "mimo-meu-bichinho-virtual",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#FFF9EB"
+    },
+    "assetBundlePatterns": ["**/*"]
+  }
+}
