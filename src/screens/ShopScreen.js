@@ -3,6 +3,7 @@ import {
   Alert,
   FlatList,
   Platform,
+  Pressable,
   RefreshControl,
   StyleSheet,
   Text,
@@ -43,6 +44,7 @@ export default function ShopScreen({ navigation }) {
   } = useMimo();
 
   const [category, setCategory] = useState('Todos');
+  const [showCategories, setShowCategories] = useState(false);
 
   useEffect(() => {
     loadProducts();
@@ -76,6 +78,11 @@ export default function ShopScreen({ navigation }) {
         'Você ainda precisa de mais moedas para comprar esse item.'
       );
     }
+  };
+
+  const selectCategory = (value) => {
+    setCategory(String(value));
+    setShowCategories(false);
   };
 
   return (
@@ -116,27 +123,56 @@ export default function ShopScreen({ navigation }) {
             </Text>
 
             <View style={styles.pickerWrap}>
-              <Text style={styles.selectedCategory}>
-                {category}
-              </Text>
+              {Platform.OS === 'ios' ? (
+                <>
+                  <Pressable
+                    style={styles.pickerButton}
+                    onPress={() =>
+                      setShowCategories((visible) => !visible)
+                    }
+                  >
+                    <Text style={styles.selectedCategory}>
+                      {category}
+                    </Text>
+                    <Text style={styles.chevron}>⌄</Text>
+                  </Pressable>
 
-              <Picker
-                selectedValue={category}
-                onValueChange={(value) =>
-                  setCategory(String(value))
-                }
-                style={styles.pickerOverlay}
-              >
-                {categories.map((item) => (
-                  <Picker.Item
-                    key={item}
-                    label={item}
-                    value={item}
-                  />
-                ))}
-              </Picker>
-
-              <Text style={styles.chevron}>⌄</Text>
+                  {showCategories ? (
+                    <View style={styles.categoryMenu}>
+                      {categories.map((item) => (
+                        <Pressable
+                          key={item}
+                          onPress={() => selectCategory(item)}
+                          style={styles.categoryOption}
+                        >
+                          <Text
+                            style={[
+                              styles.categoryOptionText,
+                              item === category && styles.categorySelected,
+                            ]}
+                          >
+                            {item}
+                          </Text>
+                        </Pressable>
+                      ))}
+                    </View>
+                  ) : null}
+                </>
+              ) : (
+                <Picker
+                  selectedValue={category}
+                  onValueChange={selectCategory}
+                  style={styles.picker}
+                >
+                  {categories.map((item) => (
+                    <Picker.Item
+                      key={item}
+                      label={item}
+                      value={item}
+                    />
+                  ))}
+                </Picker>
+              )}
             </View>
 
             <Text style={styles.count}>
@@ -204,7 +240,6 @@ const styles = StyleSheet.create({
   },
 
   pickerWrap: {
-    height: 52,
     position: 'relative',
     borderWidth: 1,
     borderColor: colors.line,
@@ -212,6 +247,14 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     marginTop: 6,
     overflow: 'visible',
+  },
+
+  pickerButton: {
+    height: 52,
+    paddingHorizontal: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 
   selectedCategory: {
@@ -223,14 +266,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 
-  pickerOverlay: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+  picker: {
     height: 52,
-    opacity: 0.01,
+    color: colors.ink,
   },
 
   chevron: {
@@ -239,6 +277,32 @@ const styles = StyleSheet.create({
     top: 11,
     color: colors.green,
     fontSize: 22,
+    fontWeight: '900',
+  },
+
+  categoryMenu: {
+    backgroundColor: colors.white,
+    borderTopWidth: 1,
+    borderTopColor: colors.line,
+    borderBottomLeftRadius: 14,
+    borderBottomRightRadius: 14,
+    overflow: 'hidden',
+  },
+
+  categoryOption: {
+    paddingHorizontal: 14,
+    paddingVertical: 13,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
+  },
+
+  categoryOptionText: {
+    color: colors.ink,
+    fontSize: 14,
+  },
+
+  categorySelected: {
+    color: colors.green,
     fontWeight: '900',
   },
 
