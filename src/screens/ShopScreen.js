@@ -116,12 +116,16 @@ export default function ShopScreen({ navigation }) {
             </Text>
 
             <View style={styles.pickerWrap}>
+              <Text style={styles.selectedCategory}>
+                {category}
+              </Text>
+
               <Picker
                 selectedValue={category}
                 onValueChange={(value) =>
                   setCategory(String(value))
                 }
-                style={styles.picker}
+                style={styles.pickerOverlay}
               >
                 {categories.map((item) => (
                   <Picker.Item
@@ -131,6 +135,8 @@ export default function ShopScreen({ navigation }) {
                   />
                 ))}
               </Picker>
+
+              <Text style={styles.chevron}>⌄</Text>
             </View>
 
             <Text style={styles.count}>
@@ -198,17 +204,42 @@ const styles = StyleSheet.create({
   },
 
   pickerWrap: {
+    height: 52,
+    position: 'relative',
     borderWidth: 1,
     borderColor: colors.line,
     backgroundColor: colors.white,
     borderRadius: 14,
     marginTop: 6,
-    overflow: 'hidden',
+    overflow: 'visible',
   },
 
-  picker: {
+  selectedCategory: {
+    position: 'absolute',
+    left: 14,
+    top: 16,
     color: colors.ink,
-    height: 48,
+    fontSize: 14,
+    fontWeight: '700',
+  },
+
+  pickerOverlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    height: 52,
+    opacity: 0.01,
+  },
+
+  chevron: {
+    position: 'absolute',
+    right: 15,
+    top: 11,
+    color: colors.green,
+    fontSize: 22,
+    fontWeight: '900',
   },
 
   count: {
